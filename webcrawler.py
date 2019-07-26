@@ -6,7 +6,21 @@ from format_link_block import format_link_block
 root = 'https://www.rescale.com/'
 root_links = fetch_hrefs(root)
 
-format_link_block(root, root_links)
+root_links_set = set()
+
+for link in root_links:
+  if (link in root_links_set):
+    continue
+  else:
+    root_links_set.add(link)
+
+print(root_links_set)
+
+# format_link_block(root, root_links)
+
+for link in fetch_hrefs(root):
+  curr_links = fetch_hrefs(link)
+  # format_link_block(link, curr_links)
 
 
 
