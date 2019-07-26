@@ -12,7 +12,6 @@ def fetch_hrefs(link):
 
   for link in link_res_soup.find_all('a'):
     curr_link = str(link.get('href'))
-    # curr_link = link.get('href').encode('utf-8')
 
     if (curr_link == 'None'):
       continue
@@ -20,6 +19,4 @@ def fetch_hrefs(link):
     if (curr_link[0:4] == 'http'):
       links_arr.append(curr_link)
 
-  print (links_arr)
-
-fetch_hrefs('https://www.facebook.com/rescaleinc/')
+  return (links_arr)

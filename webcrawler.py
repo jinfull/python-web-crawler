@@ -1,65 +1,49 @@
 # import requests, bs4
 from fetch_hrefs import fetch_hrefs
+from format_link_block import format_link_block
 
 
 root = 'https://www.rescale.com/'
+root_links = fetch_hrefs(root)
 
-links_queue = [root]
-links_set = set()
+format_link_block(root, root_links)
 
-while (links_queue):
-  # pop off the first item in links_queue and assign to curr_link
-  curr_link = links_queue.pop(0)
-  
-  print (curr_link)
 
-  # get all links of the curr_link and assign (array) to curr_links
-  curr_links = fetch_hrefs(curr_link)
 
-  print (curr_links)
 
-  # iterate through of all the current link's links
-  # if they are already in our 'seen', we continue
-  # else add them to the end of our links_queue
-  for link in curr_links:
-    if link in links_set:
-      continue
-    else:
-      links_queue.append(link)
-      links_set.add(link)
-    
 
-  # print curr_links
+
   
 
 # ==========================================
-# ==========================================
 
-# IGNORE ME
+# Queue implementation to search iteratively with a Queue through every link and every link's associated link
+# Forever (more than one level deep)
 
-
-# fetch_hrefs('http://rescale.com')
-# fetch_hrefs('http://jinfull.com') => ['http://github.com/jinfull', 'http://asano.herokuapp.com', ...]
-
-
-
-
-# ==========================================
-
-
-# links_arr = []
+# links_queue = [root]
 # links_set = set()
 
-# for link in root_res_soup.find_all('a'):
-#   curr_link = str(link.get('href'))
+# while (links_queue):
+#   # pop off the first item in links_queue and assign to curr_link
+#   curr_link = links_queue.pop(0)
+  
+#   print (curr_link)
 
-#   if (curr_link == 'None'):
-#     continue
+#   # get all links of the curr_link and assign (array) to curr_links
+#   curr_links = fetch_hrefs(curr_link)
 
-#   if (curr_link[0:4] == 'http'):
-#     links_arr.append(curr_link)
-#     links_set.add(curr_link)
+#   print (curr_links)
 
+#   # iterate through of all the current link's links
+#   # if they are already in our 'seen', we continue
+#   # else add them to the end of our links_queue
+#   for link in curr_links:
+#     if link in links_set:
+#       continue
+#     else:
+#       links_queue.append(link)
+#       links_set.add(link)
 
-# print "\n".join(links_arr)
-# print links_set
+#   print curr_links
+
+# ==========================================
