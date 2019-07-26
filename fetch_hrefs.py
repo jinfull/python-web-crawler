@@ -23,6 +23,7 @@ import bs4
 
 def fetch_hrefs(link):
   links_set = set()
+  links_arr = []
 
   try: 
     link_res = requests.get(link)
@@ -38,7 +39,8 @@ def fetch_hrefs(link):
 
     if (curr_link[0:4] == 'http' and curr_link not in links_set):
       links_set.add(curr_link)
+      links_arr.append(curr_link)
 
-  return(list(links_set))
+  return(links_arr)
 
 # fetch_hrefs('http://rescale.com')
