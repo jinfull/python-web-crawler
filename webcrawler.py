@@ -1,53 +1,36 @@
-# import requests, bs4
+import sys, threading
+from concurrent.futures import ThreadPoolExecutor
+
 from fetch_hrefs import fetch_hrefs
 from format_link_block import format_link_block
 
+try:
+  root = sys.argv[1]
+  root_links = fetch_hrefs(root)
+except: 
+  print("Please enter a URL!")
+  sys.exit(1)
 
-root = 'https://www.rescale.com/'
-root_links = fetch_hrefs(root)
-
-format_link_block(root, root_links)
-
-for link in fetch_hrefs(root):
-  curr_links = fetch_hrefs(link)
-  format_link_block(link, curr_links)
-
-
-
-
-
-
+def webcrawler(fragment_num, num_workers):
+  start_idx = int((fragment_num - 1) / num_workers * len(root_links))
+  end_idx = int(fragment_num / num_workers * len(root_links))
   
-
-# ==========================================
-
-# Queue implementation to search iteratively with a Queue through every link and every link's associated link
-# Forever (more than one level deep)
-
-# links_queue = [root]
-# links_set = set()
-
-# while (links_queue):
-#   # pop off the first item in links_queue and assign to curr_link
-#   curr_link = links_queue.pop(0)
   
-#   print (curr_link)
+  for link in root_links[start_idx:end_idx]:
+    curr_links = fetch_hrefs(link)
+    format_link_block(link, curr_links)
+  
+  print('task executed by {}'.format(threading.current_thread()))
 
-#   # get all links of the curr_link and assign (array) to curr_links
-#   curr_links = fetch_hrefs(curr_link)
+def main():
+  format_link_block(root, root_links)
 
-#   print (curr_links)
+  num_workers = 3
 
-#   # iterate through of all the current link's links
-#   # if they are already in our 'seen', we continue
-#   # else add them to the end of our links_queue
-#   for link in curr_links:
-#     if link in links_set:
-#       continue
-#     else:
-#       links_queue.append(link)
-#       links_set.add(link)
+  with ThreadPoolExecutor(max_workers=num_workers) as executor:
+    executor.submit(webcrawler(1, num_workers))
+    executor.submit(webcrawler(2, num_workers))
+    executor.submit(webcrawler(3, num_workers))
 
-#   print curr_links
-
-# ==========================================
+if __name__ == '__main__':
+  main()
