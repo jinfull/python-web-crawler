@@ -1,4 +1,4 @@
-import sys, threading
+import sys, threading, time
 from concurrent.futures import ThreadPoolExecutor
 
 from fetch_hrefs import fetch_hrefs
@@ -25,12 +25,24 @@ def webcrawler(fragment_num, num_workers):
 def main():
   format_link_block(root, root_links)
 
-  num_workers = 3
+  # # synchronous implementation (not calling webcrawler())
+  # for link in root_links:
+  #   curr_links = fetch_hrefs(link)
+  #   format_link_block(link, curr_links)
+
+  # concurrent implementation
+  num_workers = 50
 
   with ThreadPoolExecutor(max_workers=num_workers) as executor:
-    executor.submit(webcrawler(1, num_workers))
-    executor.submit(webcrawler(2, num_workers))
-    executor.submit(webcrawler(3, num_workers))
+    for i in range(1,51):
+      executor.submit(webcrawler(i, num_workers))
+      
+    # executor.submit(webcrawler(1, num_workers))
+    # executor.submit(webcrawler(2, num_workers))
+    # executor.submit(webcrawler(3, num_workers))
 
 if __name__ == '__main__':
+  start_time = time.time()
   main()
+  duration = time.time() - start_time
+  print(f"in {duration} seconds")
