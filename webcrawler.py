@@ -4,20 +4,14 @@ import concurrent.futures
 from fetch_hrefs import fetch_hrefs
 from print_link_block import print_link_block
 
-
-try:
-  root = sys.argv[1]
-  root_links = fetch_hrefs(root)
-except: 
-  print("Please enter a URL!")
-  sys.exit(1)
-
+root = sys.argv[1]
+root_links = fetch_hrefs(root)
 
 def webcrawler(link): 
   curr_links = fetch_hrefs(link)
   print_link_block(link, curr_links)
   
-  print('task executed by {}'.format(threading.current_thread()))
+  # print('task executed by {}'.format(threading.current_thread()))
 
 
 def main():
@@ -29,7 +23,7 @@ def main():
 
 
 if __name__ == '__main__':
-  start_time = time.time()
+  # start_time = time.time()
   main()
-  duration = time.time() - start_time
-  print(f"This took {duration} seconds")
+  # duration = time.time() - start_time
+  # print(f"This took {duration} seconds.")
