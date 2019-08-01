@@ -24,7 +24,7 @@ def webcrawler(links):
 
   for fetched_link in curr_links:
     if fetched_link in seen:
-      break
+      continue
     else:
       seen.add(fetched_link)
       queue.append(fetched_link)
