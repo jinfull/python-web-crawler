@@ -16,6 +16,7 @@ def main():
       executor.submit(webcrawler, queue)
 
 
+
 def webcrawler(links): 
   curr_link = queue.pop(0)
   curr_links = fetch_hrefs(curr_link)
@@ -28,6 +29,10 @@ def webcrawler(links):
     else:
       seen.add(fetched_link)
       queue.append(fetched_link)
+
+
+  print('task executed by {}'.format(threading.current_thread()))
+
 
 if __name__ == '__main__':
   main()
